@@ -1,6 +1,68 @@
 package salvo.battleship.salvo;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Set;
+
+@Entity
 public class Game {
 
-  //1 id y 1 fecha y hora de inicio no modificable
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
+    //1 id y 1 fecha y hora de inicio no modificable
+    private long id;
+    private String dateInitial;
+
+
+    @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
+    Set<GamePlayer> gamePlayers;
+
+
+    public void addGamePlayers(GamePlayer gamePlayer) {
+        gamePlayer.setGame(this);
+        gamePlayers.add(gamePlayer);
+    }
+
+
+    public Game() {
+    }
+
+    public Game(long id) {
+        this.id = id;
+    }
+
+    public String getDateInitial() {
+        Date dateNoFormat = new Date();
+        String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat changeFormat = new SimpleDateFormat(strDateFormat); // La cadena de formato de fecha se pasa como un argumento al objeto
+        String dateInitial = changeFormat.format(dateNoFormat);
+
+        return dateInitial;
+    }
+
+    public void setDateInitial(Date objDate) {
+        this.dateInitial = dateInitial;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+
+    public void setId(long id) {
+        this.id = id;
+    }
+/*
+    public String dateStartGame() {
+        String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat changeFormat = new SimpleDateFormat(strDateFormat); // La cadena de formato de fecha se pasa como un argumento al objeto
+        String dateInitial = changeFormat.format(dateNoFormat);
+        return dateInitial;
+    }
+*/
+
 }

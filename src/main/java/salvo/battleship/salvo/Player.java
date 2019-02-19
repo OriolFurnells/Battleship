@@ -1,14 +1,10 @@
 package salvo.battleship.salvo;
 import java.util.List;
+import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-
-
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 @Entity
 public class Player {
@@ -19,6 +15,15 @@ public class Player {
     private long id;
     private String userName;
 
+
+    @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
+    Set <GamePlayer> gamePlayers;
+
+
+    public void addGamePlayer (GamePlayer gamePlayer) {
+        gamePlayer.setPlayer(this);
+        gamePlayers.add(gamePlayer);
+    }
 
     public Player() {
 
