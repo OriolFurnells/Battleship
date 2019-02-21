@@ -44,6 +44,14 @@ public class Game {
         return dateInitial;
     }
 
+    public Set<GamePlayer> getGamePlayers() {
+        return gamePlayers;
+    }
+
+    public void setGamePlayers(Set<GamePlayer> gamePlayers) {
+        this.gamePlayers = gamePlayers;
+    }
+
     public void setDateInitial(Date objDate) {
         this.dateInitial = dateInitial;
     }

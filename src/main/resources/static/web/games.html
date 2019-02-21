@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Salvo!</title>
+
+
+</head>
+<body>
+
+<div id="app">
+
+    <div>
+        <ul v-for="game in games">
+            <li> <span> Game </span>{{game.GameId}} <span>Date Created: </span>{{game.GameCreated}};
+                <span v-if="game.gamePlayers.length ==1"> <span> GamePlayers: </span>{{game.gamePlayers[0].player.email}}</span>
+                <span v-else> <span> GamePlayers: </span>{{game.gamePlayers[0].player.email}} <span> vs </span> {{game.gamePlayers[1].player.email}}</span>
+            </li>
+        </ul>
+
+    </div>
+
+
+</div>
+
+<script src="scritps/games.js"></script>
+</body>
+</html>

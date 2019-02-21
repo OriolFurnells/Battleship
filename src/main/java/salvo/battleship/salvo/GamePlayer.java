@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class GamePlayer {
@@ -21,15 +22,20 @@ public class GamePlayer {
     @JoinColumn(name="game_id")
     private Game game;
 
+    @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
+    Set<Ships> ships;
+
     private Date dateNoFormat = new Date(); // Sistema actual La fecha y la hora se asignan a objDate
 
-    public GamePlayer(Player p1, Game g1){}
 
-    public GamePlayer(Player player, Game game, Date dateNoFormat) {
+    public GamePlayer(){
+    }
+
+    public GamePlayer(Player player, Game game) {
         this.player = player;
         this.game = game;
-        this.dateNoFormat = dateNoFormat;
     }
+
 
     public long getId() {
         return id;
@@ -61,6 +67,14 @@ public class GamePlayer {
 
     public void setDateNoFormat(Date dateNoFormat) {
         this.dateNoFormat = dateNoFormat;
+    }
+
+    public Set<Ships> getShips() {
+        return ships;
+    }
+
+    public void setShips(Set<Ships> ships) {
+        this.ships = ships;
     }
 
     public String dateStartGame() {
