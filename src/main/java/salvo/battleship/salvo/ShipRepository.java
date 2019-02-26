@@ -7,7 +7,7 @@ import java.util.List;
 
 
 @RepositoryRestResource
-public interface ShipsRepository  extends JpaRepository<Ships, Long> {
+public interface ShipRepository  extends JpaRepository<Ship, Long> {
 
     List<GamePlayer> findById(long id);
 

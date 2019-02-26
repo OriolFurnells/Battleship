@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/ship.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/ship.css">
+    <title>Game</title>
+</head>
+<body>
+
+
+<div id="app" class="structure">
+
+    <!--<div >-->
+        <table class="tableOfWar">
+            <thead>
+
+            </thead>
+            <tbody >
+            <tr>
+                <td></td>
+                <td v-for="number in numbers" class="cellSpace">{{number}}</td>
+            </tr>
+            <template v-for="letter in letters">
+                <tr>
+                    <td class="cellSpace"> {{letter}}</td>
+                    <td v-for="number in numbers" :id="letter+number" class="cellSpace"> {{letter+number}} </td>
+                </tr>
+                 </template>
+            <!--<tr v-for="number in numbers">{{number}}</tr>-->
+            </tbody>
+        </table>
+        <!--<ul v-for="game in games">-->
+        <!--<li> <span> Game </span>{{game.GameId}} <span>Date Created: </span>{{game.GameCreated}};-->
+        <!--<span v-if="game.gamePlayers.length ==1"> <span> GamePlayers: </span>{{game.gamePlayers[0].player.email}}</span>-->
+        <!--<span v-else> <span> GamePlayers: </span>{{game.gamePlayers[0].player.email}} <span> vs </span> {{game.gamePlayers[1].player.email}}</span>-->
+        <!--</li>-->
+        <!--</ul>-->
+
+    <!--</div>-->
+
+
+</div>
+
+<script src="scritps/game.js"></script>
+
+
+</body>
+</html>

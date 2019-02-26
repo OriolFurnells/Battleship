@@ -1,0 +1,24 @@
+.structure{
+    display:grid;
+    grid-template-columns: 10% 40% 40% 10%;
+    grid-template-rows: 20% 80%;
+    height: 100vh;
+}
+
+.tableOfWar{
+
+    grid-column: 2/3;
+    grid-row: 2;
+    border: 1px solid black ;
+    height:80%;
+    width: 100%;
+
+}
+
+.cellSpace{
+    padding: 5px;
+    text-align: center;
+    border: 1px solid black ;
+    /*background: aqua;*/
+
+}

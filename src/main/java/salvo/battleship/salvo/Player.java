@@ -1,4 +1,5 @@
 package salvo.battleship.salvo;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,13 +18,18 @@ public class Player {
 
 
     @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
-    Set <GamePlayer> gamePlayers;
+    Set <GamePlayer> gamePlayers = new HashSet<>();
 
 
     public void addGamePlayer (GamePlayer gamePlayer) {
         gamePlayer.setPlayer(this);
         gamePlayers.add(gamePlayer);
     }
+
+//    public void addPet(Pet pet) {
+//        pet.setOwner(this);
+//        pets.add(pet);
+//    }
 
     public Player() {
 
@@ -53,5 +59,12 @@ public class Player {
         return id + " " +userName;
     }
 
+    public Set<GamePlayer> getGamePlayers() {
+        return gamePlayers;
+    }
+
+    public void setGamePlayers(Set<GamePlayer> gamePlayers) {
+        this.gamePlayers = gamePlayers;
+    }
 }
 
