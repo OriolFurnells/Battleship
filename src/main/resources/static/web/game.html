@@ -15,41 +15,51 @@
 <body>
 
 
-<div id="app" class="structure">
 
-    <!--<div >-->
-        <table class="tableOfWar">
-            <thead>
+<div id="app" v-cloak class="structure">
 
-            </thead>
-            <tbody >
-            <tr>
-                <td></td>
-                <td v-for="number in numbers" class="cellSpace">{{number}}</td>
-            </tr>
-            <template v-for="letter in letters">
+    <div class="playersTittle">
+        <h2> Game {{gameJsn.GameId}}</h2>
+        <div v-if="gamePlayers.length == 1">
+            <h3> {{gamePlayers[0].Players.PlayerEmail}} (the grid is yours) </h3>
+        </div>
+       <div v-else>
+            <div v-if="gamePlayerId == gamePlayers[0].GamePlayerId">
+                <h3> {{gamePlayers[0].Players.PlayerEmail}} <span> (the grid is yours) </span><span> vs </span>
+                    {{gamePlayers[1].Players.PlayerEmail}} </h3>
+            </div>
+            <div v-else><h3> {{gameJsn.gamePlayers[0].Players.PlayerEmail}}<span> vs </span>
+                {{gamePlayers[1].Players.PlayerEmail}} <span> (the grid is yours) </span></h3></div>
+        </div>
+
+    </div>
+
+    <template>
+        <div v-for="ship in cellMark" class="tableOne">
+            <table class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody>
                 <tr>
-                    <td class="cellSpace"> {{letter}}</td>
-                    <td v-for="number in numbers" :id="letter+number" class="cellSpace"> {{letter+number}} </td>
+                    <td></td>
+                    <td v-for="number in numbers" class="cellSpace">{{number}}</td>
                 </tr>
-                 </template>
-            <!--<tr v-for="number in numbers">{{number}}</tr>-->
-            </tbody>
-        </table>
-        <!--<ul v-for="game in games">-->
-        <!--<li> <span> Game </span>{{game.GameId}} <span>Date Created: </span>{{game.GameCreated}};-->
-        <!--<span v-if="game.gamePlayers.length ==1"> <span> GamePlayers: </span>{{game.gamePlayers[0].player.email}}</span>-->
-        <!--<span v-else> <span> GamePlayers: </span>{{game.gamePlayers[0].player.email}} <span> vs </span> {{game.gamePlayers[1].player.email}}</span>-->
-        <!--</li>-->
-        <!--</ul>-->
-
-    <!--</div>-->
+                <template v-for="letter in letters">
+                    <tr>
+                        <td class="cellSpace"> {{letter}}</td>
+                        <td v-for="number in numbers" :id="letter+number"
+                            :class="{shipDetected: ship === letter+number}"></td>
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+        </div>
+    </template>
 
 
 </div>
 
 <script src="scritps/game.js"></script>
-
-
 </body>
 </html>

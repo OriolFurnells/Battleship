@@ -1,24 +1,44 @@
+[v-cloak] {
+    display: none;
+}
 .structure{
     display:grid;
     grid-template-columns: 10% 40% 40% 10%;
-    grid-template-rows: 20% 80%;
+    grid-template-rows: 20% 20% 60%;
     height: 100vh;
 }
 
 .tableOfWar{
-
-    grid-column: 2/3;
-    grid-row: 2;
     border: 1px solid black ;
     height:80%;
     width: 100%;
 
 }
 
+.playersTittle{
+    grid-column: 2/4;
+    grid-row: 2;
+    text-align: center;
+}
+
+
+.tableOne{
+    grid-column: 2/3;
+    grid-row: 3;
+}
 .cellSpace{
-    padding: 5px;
+    /*padding: 5px;*/
     text-align: center;
     border: 1px solid black ;
+    width: 43px;
     /*background: aqua;*/
+
+}
+
+.shipDetected{
+    width:25px;
+    height: 25px;
+    background-color: rebeccapurple;
+    z-index:1;
 
 }
