@@ -1,8 +1,7 @@
 package salvo.battleship.salvo;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -21,15 +20,9 @@ public class Player {
     Set <GamePlayer> gamePlayers = new HashSet<>();
 
 
-    public void addGamePlayer (GamePlayer gamePlayer) {
-        gamePlayer.setPlayer(this);
-        gamePlayers.add(gamePlayer);
-    }
+    @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
+    private Set<Score> scores= new HashSet<>();
 
-//    public void addPet(Pet pet) {
-//        pet.setOwner(this);
-//        pets.add(pet);
-//    }
 
     public Player() {
 
@@ -55,10 +48,6 @@ public class Player {
         this.id = id;
     }
 
-    public String toString() {
-        return id + " " +userName;
-    }
-
     public Set<GamePlayer> getGamePlayers() {
         return gamePlayers;
     }
@@ -66,5 +55,37 @@ public class Player {
     public void setGamePlayers(Set<GamePlayer> gamePlayers) {
         this.gamePlayers = gamePlayers;
     }
+
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
+
+    public void addGamePlayer (GamePlayer gamePlayer) {
+        gamePlayer.setPlayer(this);
+        gamePlayers.add(gamePlayer);
+    }
+
+    public void addScore (Score score){
+        score.setPlayer(this);
+        scores.add(score);
+    }
+
+
+    public Score getScore (Game game){
+            //cogemos los scores y los transformamos en --
+        return scores.stream()
+                //buscamos la coincidencia comparando con el game pasamos por parametro (entre parentesis)
+                .filter(score -> score.getGame().equals(game))
+                //filter y map siempre devuelven lista
+                //devuelve un optional que nos permite extraer
+                .findFirst()
+                //si no, devuelve null
+               .orElse(null);
+    }
+
 }
 

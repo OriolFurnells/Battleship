@@ -1,19 +1,18 @@
 var app = new Vue({
     el: '#app',
     data: {
-        games : [],
+        gamesJsn: [],
         gamePlayers:[],
-
+        rankedPlayersJsn:[],
     },
 
     created:function(){
-        // console.log("hola");
-        this.runStart();
+        this.listGames();
+        this.infoPlayerRanked();
     },
 
     methods: {
-
-        runStart: function () {
+        listGames: function () {
             fetch("http://localhost:8080/api/games", {
                 method: "GET",
             }).then(function (response) {
@@ -21,32 +20,29 @@ var app = new Vue({
                     return response.json();
                 }
             }).then(function (json) {
-                app.games= json;
-                console.log(app.games);
+                app.gamesJsn = json;
+                console.log(app.gamesJsn)
+            }).catch(function (error) {
+                console.log("Request failed:" + error.message);
+            })
+        },
 
+        infoPlayerRanked: function () {
+            fetch("http://localhost:8080/api/leaderBoard", {
+                method: "GET",
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            }).then(function (json) {
+                app.rankedPlayersJsn = json;
+                console.log(app.rankedPlayersJsn)
 
             }).catch(function (error) {
                 console.log("Request failed:" + error.message);
             })
         },
 
-
-        gamesList: function (){
-            let liElement=document.createElement("li");
-            let olElement=document.createElement("ol");
-            let divElement=document.createElement("div");
-
-
-
-
-
-            liElement.appendChild(olElement);
-            olElement.appendChild(divElement);
-
-        }
-
-
     },
-
 
 })

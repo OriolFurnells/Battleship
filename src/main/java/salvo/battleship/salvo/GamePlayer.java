@@ -1,7 +1,7 @@
 package salvo.battleship.salvo;
 
-import org.hibernate.annotations.GenericGenerator;
 
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,17 +27,17 @@ public class GamePlayer {
     @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
     Set<Ship> ships = new HashSet<>();
 
+    @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
+    Set<Salvo> salvos = new HashSet<>();
+
+
+
     private Date dateNoFormat = new Date(); // Sistema actual La fecha y la hora se asignan a objDate
 
-    public void addShip (Ship ship) {
-        ship.setGamePlayer(this);
-        ships.add(ship);
-    }
 
     public GamePlayer(){
 
     }
-
 
     public long getId() {
         return id;
@@ -86,6 +86,28 @@ public class GamePlayer {
         return dateStart;
     }
 
+    public Set<Salvo> getSalvos() {
+        return salvos;
+    }
+
+    public void setSalvos(Set<Salvo> salvos) {
+        this.salvos = salvos;
+    }
+
+
+    public void addShip (Ship ship) {
+        ship.setGamePlayer(this);
+        ships.add(ship);
+    }
+
+    public void addSalvo (Salvo salvo) {
+        salvo.setGamePlayer(this);
+        salvos.add(salvo);
+    }
+
+    public Score getScore(){
+        return player.getScore(game);
+    }
 
 
 

@@ -1,7 +1,9 @@
 [v-cloak] {
     display: none;
 }
-.structure{
+
+/*----------gamE.html----------*/
+.structureGame{
     display:grid;
     grid-template-columns: 10% 40% 40% 10%;
     grid-template-rows: 20% 20% 60%;
@@ -12,33 +14,68 @@
     border: 1px solid black ;
     height:80%;
     width: 100%;
-
 }
-
 .playersTittle{
     grid-column: 2/4;
     grid-row: 2;
     text-align: center;
 }
 
-
 .tableOne{
     grid-column: 2/3;
     grid-row: 3;
 }
+
 .cellSpace{
-    /*padding: 5px;*/
     text-align: center;
     border: 1px solid black ;
     width: 43px;
-    /*background: aqua;*/
-
 }
 
-.shipDetected{
-    width:25px;
-    height: 25px;
-    background-color: rebeccapurple;
-    z-index:1;
+.carrier {
+    background-color: blue;
+}
+.battleship{
+    background-color: blueviolet;
+}
+.submarine{
+    background-color: forestgreen;
+}
+.destroyer{
+    background-color: chartreuse;
+}
+.patrolBoat{
+    background-color: darkslategrey;
+}
 
+.shotImpact{
+    background-color: red;
+    border-radius: 50px;
+    z-index:1;
+}
+.shotFail{
+    background-color: deepskyblue;
+}
+
+
+/*----------gameS.html----------*/
+.structureGames{
+    display:grid;
+    grid-template-columns: 10% 40% 40% 10%;
+    grid-template-rows: 10% 25% 15% 50%;
+    height: 100vh;
+}
+
+.listGames{
+    grid-column: 2/4;
+    grid-row: 2;
+}
+
+.tableScore{
+    grid-column:2/4;
+    grid-row: 4;
+}
+
+.cellPosition{
+    text-align: center;
 }

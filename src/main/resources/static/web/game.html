@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles/ship.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
@@ -15,30 +14,28 @@
 <body>
 
 
-
-<div id="app" v-cloak class="structure">
+<div id="app" v-cloak class="structureGame">
 
     <div class="playersTittle">
-        <h2> Game {{gameJsn.GameId}}</h2>
-        <div v-if="gamePlayers.length == 1">
-            <h3> {{gamePlayers[0].Players.PlayerEmail}} (the grid is yours) </h3>
-        </div>
-       <div v-else>
-            <div v-if="gamePlayerId == gamePlayers[0].GamePlayerId">
-                <h3> {{gamePlayers[0].Players.PlayerEmail}} <span> (the grid is yours) </span><span> vs </span>
-                    {{gamePlayers[1].Players.PlayerEmail}} </h3>
+        <h2> Game {{gameJsn.gameId}}</h2>
+       <div v-if="gamePlayers.length == 1">
+            <h3> {{gamePlayers[0].players.playerEmail}} (the grid is yours) </h3>
+                   </div>
+        <div v-else>
+            <h3 v-if="gamePlayers[0].players !== undefined && gamePlayerId == gamePlayerIdPosCero">
+                {{gamePlayers[0].players.playerEmail}} <span> (the grid is yours) </span><span> vs </span>
+                {{gamePlayers[1].players.playerEmail}}
+            </h3>
+            <div v-else><h3> {{gamePlayers[0].players.playerEmail}}<span> vs </span>
+                {{gamePlayers[1].players.playerEmail}} <span> (the grid is yours) </span></h3>
             </div>
-            <div v-else><h3> {{gameJsn.gamePlayers[0].Players.PlayerEmail}}<span> vs </span>
-                {{gamePlayers[1].Players.PlayerEmail}} <span> (the grid is yours) </span></h3></div>
         </div>
 
     </div>
-
     <template>
-        <div v-for="ship in cellMark" class="tableOne">
+        <div v-for="game in gameJsn.gameId" class="tableOne">
             <table class="table table-bordered">
                 <thead>
-
                 </thead>
                 <tbody>
                 <tr>
@@ -48,8 +45,7 @@
                 <template v-for="letter in letters">
                     <tr>
                         <td class="cellSpace"> {{letter}}</td>
-                        <td v-for="number in numbers" :id="letter+number"
-                            :class="{shipDetected: ship === letter+number}"></td>
+                        <td v-for="number in numbers" :id="letter+number" :class="addClassToCell(letter+number)" ></td>
                     </tr>
                 </template>
                 </tbody>

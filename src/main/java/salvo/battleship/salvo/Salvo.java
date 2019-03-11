@@ -5,35 +5,32 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Ship {
-
+public class Salvo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
 
-    private String type;
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="gamePlayer_id")
+    @JoinColumn(name="player_id")
     private GamePlayer gamePlayer;
 
     @ElementCollection
-    @Column(name="cellLocations")
-    private List<String> cellLocations = new ArrayList<>();
+    @Column(name="SalvoLocations")
+    private List<String> salvoLocations = new ArrayList<>();
 
+    private int turn;
 
+    public Salvo(){}
 
-    public Ship() {
-    }
-
-    public Ship(String type, List<String> cellLocations) {
-        this.type=type;
-        this.cellLocations = cellLocations;
+    public Salvo(int turn, List<String> salvoLocations ){
+        this.turn=turn;
+        this.salvoLocations= salvoLocations;
     }
 
     public long getId() {
@@ -42,14 +39,6 @@ public class Ship {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     @JsonIgnore
@@ -61,13 +50,19 @@ public class Ship {
         this.gamePlayer = gamePlayer;
     }
 
-    public List<String> getCellLocations() {
-        return cellLocations;
+    public int getTurn() {
+        return turn;
     }
 
-    public void setCellLocations(List<String> cellLocations) {
-        this.cellLocations = cellLocations;
+    public void setTurn(short turn) {
+        this.turn = turn;
+    }
+
+    public List<String> getSalvoLocations() {
+        return salvoLocations;
+    }
+
+    public void setSalvoLocations(List<String> salvoLocations) {
+        this.salvoLocations = salvoLocations;
     }
 }
-
-
