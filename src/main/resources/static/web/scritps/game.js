@@ -12,6 +12,8 @@ var app = new Vue({
         salvoes: [],
         cellMark: [],
         gamePlayerIdPosCero: "",
+        gamePlayerIdPosOne: " ",
+        noGamePlayer:false,
 
     },
 
@@ -30,13 +32,17 @@ var app = new Vue({
                     return response.json();
                 }
             }).then(function (json) {
+
                 app.gameJsn = json;
-                console.log(app.gameJsn);
+                // if(app.gameJsn.length==0){
+                //     app.noGamePlayer=true;
+                //
+                // }
                 app.gamePlayers = app.gameJsn.gamePlayers;
                 app.extractInfo();
 
-
             }).catch(function (error) {
+                alert("Petición de información erronea, cambia el Game Player de consulta");
                 console.log("Request failed:" + error.message);
             })
         },

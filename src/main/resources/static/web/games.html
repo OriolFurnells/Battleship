@@ -13,15 +13,13 @@
 </head>
 <body>
 
-<div id="app" class="structureGames">
-
+<div id="app" class="structureGames" v-cloack>
     <div class="listGames">
         <ul v-for="game in gamesJsn">
-            <li> <span> Game </span>{{game.gameId}} <span>Date Created: </span>{{game.gameCreated}}
-                <span v-if="game.gamePlayers.length ==1"> <span> GamePlayers: </span>{{game.gamePlayers[0].players.playerEmail}}</span>
-               <span v-else> <span> GamePlayers: </span>{{game.gamePlayers[0].players.playerEmail}}<span> vs </span> {{game.gamePlayers[1].players.playerEmail}}</span>
+            <li>
+                <span> Game </span>{{game.gameId}} <span>Date Created: </span>{{game.gameCreated}}<span v-if="game.gamePlayers.length ==1"> <span> GamePlayers: </span>{{game.gamePlayers[0].players.playerEmail}}</span>
+                <span v-else> <span> GamePlayers: </span>{{game.gamePlayers[0].players.playerEmail}}<span> vs </span> {{game.gamePlayers[1].players.playerEmail}}</span>
         </ul>
-
     </div>
 
     <div class="tableScore">
@@ -48,7 +46,6 @@
 
         </table>
     </div>
-
 
 </div>
 

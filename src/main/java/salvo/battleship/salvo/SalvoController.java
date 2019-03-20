@@ -1,16 +1,23 @@
 package salvo.battleship.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class SalvoController {
+public class    SalvoController {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private GameRepository gameRepo;
@@ -34,12 +41,13 @@ public class SalvoController {
 
     @RequestMapping("/game_view/{gamePlayerId}")
     public Map<String, Object> getGameView(@PathVariable Long gamePlayerId) {
-        GamePlayer gamePlayer = gamePlayerRepo.findOne(gamePlayerId);
+
+        GamePlayer gamePlayer = gamePlayerRepo.getOne(gamePlayerId);
 
         return makeGameCompleteDTO(gamePlayer);
     }
 
-        @RequestMapping("/leaderBoard")
+    @RequestMapping("/leaderBoard")
     public List<Map<String, Object>> getTableRanked() {
         return playerRepo.findAll()
                 .stream()
@@ -47,23 +55,39 @@ public class SalvoController {
                 .map(player -> makeScoresDto(player))
                 .collect(Collectors.toList());
     }
+//
+//    @RequestMapping(path = "/player", method = RequestMethod.POST)
+//    public ResponseEntity<Object> register(
+//            @RequestParam String username, @RequestParam String password) {
+//
+//        if (username.isEmpty() || password.isEmpty()) {
+//            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+//        }
+//
+//        if (playerRepo.findByUserName(username) !=  null) {
+//            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
+//        }
+//
+//        playerRepo.save(new Player(username, passwordEncoder.encode(password)));
+//        return new ResponseEntity<>(HttpStatus.CREATED);
+//    }
 
-    private Map<String, Object> makeGamePlayerDTO(GamePlayer gamePlayer) {
-        Map<String, Object> MapaDto = new LinkedHashMap<String, Object>();
+    private LinkedHashMap<String, Object> makeGamePlayerDTO(GamePlayer gamePlayer) {
+        LinkedHashMap<String, Object> MapaDto = new LinkedHashMap<String, Object>();
         MapaDto.put("gamePlayerId", gamePlayer.getId());
         MapaDto.put("players", gamePlayer.getPlayer() != null ? makePlayerDTO(gamePlayer.getPlayer()) : null);
         return MapaDto;
     }
 
-    private Map<String, Object> makePlayerDTO(Player player) {
-        Map<String, Object> PlayerDto = new LinkedHashMap<String, Object>();
+    private LinkedHashMap<String, Object> makePlayerDTO(Player player) {
+        LinkedHashMap<String, Object> PlayerDto = new LinkedHashMap<String, Object>();
         PlayerDto.put("playerId", player.getId());
         PlayerDto.put("playerEmail", player.getUserName());
         PlayerDto.put("playerScore", player.getScores());
         return PlayerDto;
     }
 
-    private Map<String, Object> makeScoresDto(Player player) {
+    private LinkedHashMap<String, Object> makeScoresDto(Player player) {
         double totalPoints = player.getScores()
                 .stream()
                 .mapToDouble(score -> score.getPlayerScore())
@@ -81,7 +105,7 @@ public class SalvoController {
                 .filter(score -> score.getPlayerScore() == 0)
                 .count();
 
-        Map<String, Object> tableLeader = new LinkedHashMap<String, Object>();
+        LinkedHashMap<String, Object> tableLeader = new LinkedHashMap<String, Object>();
         tableLeader.put("playerEmail", player.getUserName());
         tableLeader.put("totalPoints", totalPoints);
         tableLeader.put("totalWins",totalWins);
@@ -90,8 +114,8 @@ public class SalvoController {
         return tableLeader;
     }
 
-    private Map<String, Object> makeGameDTO(Game game) {
-        Map<String, Object> gameDto = new LinkedHashMap<String, Object>();
+    private LinkedHashMap<String, Object> makeGameDTO(Game game) {
+        LinkedHashMap<String, Object> gameDto = new LinkedHashMap<String, Object>();
         gameDto.put("gameId", game.getId());
         gameDto.put("gameCreated", game.getDateInitial());
         gameDto.put("gamePlayers", game.getGamePlayers().stream().map(gamePlayer -> makeGamePlayerDTO(gamePlayer))
@@ -100,26 +124,26 @@ public class SalvoController {
         return gameDto;
     }
 
-    private List<Map<String, Object>> makeShipsDTO(Set<Ship> ships) {
+    private List<LinkedHashMap<String, Object>> makeShipsDTO(Set<Ship> ships) {
         return ships.stream().map(ship -> {
-            Map<String, Object> shipsDto= new LinkedHashMap<String, Object>();
+            LinkedHashMap<String, Object> shipsDto= new LinkedHashMap<String, Object>();
             shipsDto.put("shipType", ship.getType());
             shipsDto.put("shipCell_Locations", ship.getCellLocations());
             return shipsDto;
         }).collect(Collectors.toList());
         }
 
-    private List<Map<String, Object>> makeSalvoDTO(Set<Salvo> salvos) {
+    private List<LinkedHashMap<String, Object>> makeSalvoDTO(Set<Salvo> salvos) {
         return salvos.stream().map(salvo -> {
-            Map<String, Object> salvoDto= new LinkedHashMap<String, Object>();
+            LinkedHashMap<String, Object> salvoDto= new LinkedHashMap<String, Object>();
             salvoDto.put("turn", salvo.getTurn());
             salvoDto.put("salvo_Locations", salvo.getSalvoLocations());
             return salvoDto;
         }).collect(Collectors.toList());
     }
 
-    private Map<String, Object> makeGamePlayerWithVersusDTO(GamePlayer gamePlayer) {
-        Map<String, Object> MapaDto = new LinkedHashMap<String, Object>();
+    private LinkedHashMap<String, Object> makeGamePlayerWithVersusDTO(GamePlayer gamePlayer) {
+        LinkedHashMap<String, Object> MapaDto = new LinkedHashMap<String, Object>();
         MapaDto.put("gamePlayerId", gamePlayer.getId());
         MapaDto.put("players", makePlayerDTO(gamePlayer.getPlayer()));
         MapaDto.put("ships", makeShipsDTO(gamePlayer.getShips()));
@@ -127,8 +151,8 @@ public class SalvoController {
         return MapaDto;
     }
 
-    private Map<String, Object> makeGameCompleteDTO(GamePlayer gamePlayer) {
-        Map<String, Object> gameWithAll = new LinkedHashMap<String, Object>();
+    private LinkedHashMap<String, Object> makeGameCompleteDTO(GamePlayer gamePlayer) {
+        LinkedHashMap<String, Object> gameWithAll = new LinkedHashMap<String, Object>();
         gameWithAll.put("gameId", gamePlayer.getGame().getId());
         gameWithAll.put("gameCreated", gamePlayer.getGame().getDateInitial());
         gameWithAll.put("gamePlayers", gamePlayer.getGame().getGamePlayers().stream().map(gamePlayerMap -> makeGamePlayerWithVersusDTO(gamePlayerMap)).collect(Collectors.toList()));

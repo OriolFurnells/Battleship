@@ -16,32 +16,27 @@
 
 <div id="app" v-cloak class="structureGame">
 
-    <div class="playersTittle">
+    <div class="playersTittle" v-if="gameJsn.length!=0">
         <h2> Game {{gameJsn.gameId}}</h2>
-       <div v-if="gamePlayers.length == 1">
-            <h3> {{gamePlayers[0].players.playerEmail}} (the grid is yours) </h3>
-                   </div>
-        <div v-else>
-            <h3 v-if="gamePlayers[0].players !== undefined && gamePlayerId == gamePlayerIdPosCero">
-                {{gamePlayers[0].players.playerEmail}} <span> (the grid is yours) </span><span> vs </span>
-                {{gamePlayers[1].players.playerEmail}}
-            </h3>
-            <div v-else><h3> {{gamePlayers[0].players.playerEmail}}<span> vs </span>
-                {{gamePlayers[1].players.playerEmail}} <span> (the grid is yours) </span></h3>
-            </div>
+        <div v-if="gamePlayers.length == 1">
+            <h3> {{meInfo.players.playerEmail}} (the grid is yours) </h3>
         </div>
-
+        <div v-else><h3> {{meInfo.players.playerEmail}} <span> (the grid is yours) </span> <span> vs </span>
+            {{oponentInfo.players.playerEmail}}</h3>
+        </div>
     </div>
+
     <template>
         <div v-for="game in gameJsn.gameId" class="tableOne">
             <table class="table table-bordered">
                 <thead>
+                <td></td>
+                <td v-for="number in numbers" class="cellSpace">{{number}}</td>
                 </thead>
                 <tbody>
-                <tr>
-                    <td></td>
-                    <td v-for="number in numbers" class="cellSpace">{{number}}</td>
-                </tr>
+                <!--<tr>-->
+            <!---->
+                <!--</tr>-->
                 <template v-for="letter in letters">
                     <tr>
                         <td class="cellSpace"> {{letter}}</td>
@@ -52,6 +47,8 @@
             </table>
         </div>
     </template>
+
+
 
 
 </div>

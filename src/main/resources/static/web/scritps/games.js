@@ -4,11 +4,13 @@ var app = new Vue({
         gamesJsn: [],
         gamePlayers:[],
         rankedPlayersJsn:[],
+        gamePlayerIdPositionCero:"",
     },
 
     created:function(){
         this.listGames();
         this.infoPlayerRanked();
+
     },
 
     methods: {
@@ -21,6 +23,7 @@ var app = new Vue({
                 }
             }).then(function (json) {
                 app.gamesJsn = json;
+                app.gamePlayerPositionCero=app.gamesJsn.gamePlayer[0];
                 console.log(app.gamesJsn)
             }).catch(function (error) {
                 console.log("Request failed:" + error.message);
@@ -35,8 +38,10 @@ var app = new Vue({
                     return response.json();
                 }
             }).then(function (json) {
-                app.rankedPlayersJsn = json;
-                console.log(app.rankedPlayersJsn)
+                app.rankedPlayersJsn = json.sort(function(a, b){return b.totalPoints - a.totalPoints});
+
+
+                // console.log(app.rankedPlayersJsn.sort(function(a, b){return b.totalPoints - a.totalPoints}));
 
             }).catch(function (error) {
                 console.log("Request failed:" + error.message);
