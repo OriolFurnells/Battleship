@@ -9,16 +9,31 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
     <link rel="stylesheet" type="text/css" href="styles/ship.css">
-    <title>Salvo!</title>
+    <title>Games</title>
 </head>
 <body>
 
-<div id="app" class="structureGames" v-cloack>
-    <div class="listGames">
-        <ul v-for="game in gamesJsn">
+<div id="app" v-cloak class="structureGames" >
+
+    <div class="formLogin">
+        <form v-show="!log" class="login">
+            <p> Introduce email <input type="text" id="userLog"> </p>
+            <p> Introduce password <input type="password" id="pwdLog"> </p>
+            <input type="submit" value="Log in" class="buttonLog" @click="logIn">
+        </form>
+        <div v-show="log">
+        <p v-if="userNameLogin!= null"> {{userNameLogin.playerEmail}}
+        </p>
+        </div>
+    </div>
+
+
+    <div  class="listGames">
+
+        <ul v-for="game in gamesJsn.games">
             <li>
                 <span> Game </span>{{game.gameId}} <span>Date Created: </span>{{game.gameCreated}}<span v-if="game.gamePlayers.length ==1"> <span> GamePlayers: </span>{{game.gamePlayers[0].players.playerEmail}}</span>
-                <span v-else> <span> GamePlayers: </span>{{game.gamePlayers[0].players.playerEmail}}<span> vs </span> {{game.gamePlayers[1].players.playerEmail}}</span>
+                <span v-else> <span> GamePlayers: </span>{{game.gamePlayers[0].players.playerEmail}}<span> vs </span> {{game.gamePlayers[1].players.playerEmail}}</span></li>
         </ul>
     </div>
 

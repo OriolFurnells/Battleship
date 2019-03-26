@@ -47,7 +47,6 @@
 .patrolBoat{
     background-color: darkslategrey;
 }
-
 .shotImpact{
     background-color: red;
     border-radius: 50px;
@@ -56,7 +55,6 @@
 .shotFail{
     background-color: deepskyblue;
 }
-
 
 /*----------gameS.html----------*/
 .structureGames{
@@ -69,6 +67,28 @@
 .listGames{
     grid-column: 2/4;
     grid-row: 2;
+}
+
+.formLogin{
+    flex-wrap: nowrap;
+    grid-column: 2/4;
+    grid-row: 1;
+    padding:1em;
+}
+
+.login{
+    display:flex;
+    /*flex-direction: space;*/
+}
+
+.buttonLog{
+    background: brown;
+    color:white;
+
+}
+
+.login p{
+    margin-right: 2em;
 }
 
 .tableScore{
