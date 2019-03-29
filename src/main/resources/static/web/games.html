@@ -13,17 +13,21 @@
 </head>
 <body>
 
-<div id="app" v-cloak class="structureGames" >
+<div id="app" >
+<div v-cloak class="structureGames" >
 
     <div class="formLogin">
-        <form v-show="!log" class="login">
+        <form onsubmit="return false" v-show="!log" class="login">
             <p> Introduce email <input type="text" id="userLog"> </p>
             <p> Introduce password <input type="password" id="pwdLog"> </p>
             <input type="submit" value="Log in" class="buttonLog" @click="logIn">
-        </form>
-        <div v-show="log">
-        <p v-if="userNameLogin!= null"> {{userNameLogin.playerEmail}}
+            <input type="submit" value="Sign Up" class="buttonLog" @click="register">
+       </form>
+
+        <div v-show="log"  class="login">
+        <p v-if="userNameLogin!= null"> Welcome {{userNameLogin.playerEmail}}!!!
         </p>
+            <input type="submit" value="Log Out" class="buttonLog" @click="logOut">
         </div>
     </div>
 
@@ -61,7 +65,7 @@
 
         </table>
     </div>
-
+</div>
 </div>
 
 <script src="scritps/games.js"></script>

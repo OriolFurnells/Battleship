@@ -43,7 +43,6 @@ public class    SalvoController {
 
         LinkedHashMap<String, Object> gamesDto = new LinkedHashMap<String, Object>();
         gamesDto.put("player", isGuest(authentication) ? null : playerLogDto(currentUser(authentication)));
-        //error de mapeado
         gamesDto.put("games", allGames);
 
         return gamesDto;
@@ -67,15 +66,19 @@ public class    SalvoController {
     }
 
     @RequestMapping(path = "/players", method = RequestMethod.POST)
-    public ResponseEntity<Object> register(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<Object> register( @RequestBody Player newPlayer) {
+        String username= newPlayer.getUserName();
+        String password= newPlayer.getPassword();
         if (username.isEmpty() || password.isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
         if (playerRepo.findByUserName(username) !=  null) {
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
         }
-        playerRepo.save(new Player(username, passwordEncoder.encode(password)));
+        playerRepo.save(new Player(username, password));
         return new ResponseEntity<>(HttpStatus.CREATED);
+
+
     }
 
     private LinkedHashMap<String, Object> makeGamePlayerDTO(GamePlayer gamePlayer) {

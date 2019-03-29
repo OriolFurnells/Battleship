@@ -67,6 +67,7 @@
 .listGames{
     grid-column: 2/4;
     grid-row: 2;
+    margin-top: 1.5em;
 }
 
 .formLogin{
@@ -84,7 +85,8 @@
 .buttonLog{
     background: brown;
     color:white;
-
+    height: 2.5em;
+    width: 5em;
 }
 
 .login p{

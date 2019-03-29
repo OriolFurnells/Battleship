@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class SalvoApplication extends SpringBootServletInitializer {
@@ -294,9 +295,9 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
     @Autowired
     private PlayerRepository playerRepo;
-
         public void init(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(userName-> {
+//            System.out.println("player Repo: " + playerRepo);
+            auth.userDetailsService(userName -> {
                 Player player = playerRepo.findByUserName(userName);
                 if (player != null) {
                     return User
@@ -329,12 +330,13 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/games",
                         "/favicon.ico",
                         "/api/players"
+
                 ).permitAll()
                 .anyRequest().hasAnyAuthority("USER");
 
         http.formLogin()
-                .usernameParameter("userName")
                 .passwordParameter("password")
+                .usernameParameter("userName")
                 .loginPage("/api/login")
                 .permitAll();
 

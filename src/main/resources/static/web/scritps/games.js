@@ -8,6 +8,8 @@ var app = new Vue({
         log: false,
         userNameLogin: "",
         userLog: "",
+        emailValidate : /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+
     },
 
     created: function () {
@@ -23,17 +25,16 @@ var app = new Vue({
                 if (response.ok) {
                     return response.json();
                 }
-            }).then(function (json) {
+            }).then(function (json){
                 app.gamesJsn = json;
                 console.log(app.gamesJsn);
                 app.userNameLogin = app.gamesJsn.player;
-                if(userNameLogin!=null){
-                    app.log=true;
-                }else{
+                if(app.userNameLogin!=null){
+                    app.log = true;
+                } else{
                     app.log=false;
                 }
-                // app.gamePlayerPositionCero=app.gamesJsn.gamePlayer[0]
-                console.log(app.userNameLogin);
+
             }).catch(function (error) {
                 console.log("Request failed:" + error.message);
             })
@@ -51,33 +52,34 @@ var app = new Vue({
                     return b.totalPoints - a.totalPoints
                 });
 
-
-                // console.log(app.rankedPlayersJsn.sort(function(a, b){return b.totalPoints - a.totalPoints}));
-
             }).catch(function (error) {
                 console.log("Request failed:" + error.message);
             })
         },
 
-        logIn: function () {
-            let password = document.getElementById(pwdLog.value);
-            let user= document.getElementById(userLog.value);
-
-            if (userLog.value == "" || pwdLog.value == "") {
+        logIn() {
+            console.log("hi logIn")
+            let user= document.getElementById("userLog").value;
+            let password = document.getElementById("pwdLog").value;
+            if (user == "" || password == "") {
                 alert("You need email and password");
             } else {
-                let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-                if (emailRegex.test(userLog.value)) {
-                    fetch("http://localhost:8080/api/players/", {
+                if (app.emailValidate.test(user)) {
+                    let userLog  = "userName="+user+"&password="+password;
+                    console.log(userLog)
+                    fetch("http://localhost:8080/api/login", {
                         method: "POST",
-                        body: JSON.stringify({ username: user , password: password})
-                }).then(function (response) {
-                        console.log(app.log+"then")
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: userLog
+                    }).then(response => {
                         if (response.ok) {
-                            console.log(app.log+"responseOK")
-                            app.log=true;
-                            return response.json();
+                            location.reload();
+                        } else {
+                            alert("Credentials not found");
                         }
+
                     }).catch(function (error) {
                         console.log("Request failed:" + error.message);
                     })
@@ -88,6 +90,59 @@ var app = new Vue({
 
             }
         },
+        
+        logOut(){
+            fetch("http://localhost:8080/api/logout", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            }).then(response => {
+                if (response.ok) {
+                    app.log=false;
+                    location.reload();
+                } else {
+                    alert("Credentials not found");
+                }
+
+            }).catch(function (error) {
+                console.log("Request failed:" + error.message);
+            })
+
+            
+        },
+
+        register() {
+            let user = document.getElementById("userLog").value;
+            let password = document.getElementById("pwdLog").value;
+            if (user == "" || password == "") {
+                alert("You need email and password");
+            } else {
+                if (app.emailValidate.test(user)) {
+                    let userLog = JSON.stringify({userName :user, password:  password});
+                    fetch("http://localhost:8080/api/players", {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: userLog
+                    }).then(response => {
+                        if (response.ok) {
+                            app.logIn();
+                        } else {
+                            alert("Your Sig Up isn't OK");
+                        }
+
+                    }).catch(function (error) {
+                        console.log("Request failed:" + error.message);
+                    })
+                }
+                else {
+                    alert("you need correct email")
+                }
+
+            }
+        }
 
 
     },
