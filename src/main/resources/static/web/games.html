@@ -13,59 +13,72 @@
 </head>
 <body>
 
-<div id="app" >
-<div v-cloak class="structureGames" >
+<div id="app">
+    <div v-cloak class="structureGames">
 
-    <div class="formLogin">
-        <form onsubmit="return false" v-show="!log" class="login">
-            <p> Introduce email <input type="text" id="userLog"> </p>
-            <p> Introduce password <input type="password" id="pwdLog"> </p>
-            <input type="submit" value="Log in" class="buttonLog" @click="logIn">
-            <input type="submit" value="Sign Up" class="buttonLog" @click="register">
-       </form>
+        <div class="heather">
+            <form onsubmit="return false" v-show="!log" class="login">
+                <p> Introduce email <input type="text" id="userLog"></p>
+                <p> Introduce password <input type="password" id="pwdLog"></p>
+                <input type="submit" value="Log in" class="buttonLog" @click="logIn">
+                <input type="submit" value="Sign Up" class="buttonLog" @click="register">
+            </form>
 
-        <div v-show="log"  class="login">
-        <p v-if="userNameLogin!= null"> Welcome {{userNameLogin.playerEmail}}!!!
-        </p>
-            <input type="submit" value="Log Out" class="buttonLog" @click="logOut">
+            <div v-show="log" class="login">
+                <p v-if="userNameLogin!= null"> Welcome {{userNameLogin.playerEmail}}!!!
+                </p>
+                <input type="submit" value="Log Out" class="buttonLog" @click="logOut">
+            </div>
+            <div v-show="log" class="moreInfo">
+                <input type="submit" value="Create Game" class="createdGame" @click="createGame()">
+            </div>
         </div>
-    </div>
+        <div class="listGames">
 
+            <ul v-for="game in gamesJsn.games">
+                <li>
+                    <span> Game </span>{{game.gameId}} <span>Date Created: </span>{{game.gameCreated}}<span
+                        v-if="game.gamePlayers.length ==1"> <span> GamePlayers: </span>{{game.gamePlayers[0].players.playerEmail}}
+                <span v-if="userNameLogin!= null">
+                    <span v-if="userNameLogin.playerId == game.gamePlayers[0].players.playerId"> <input type="button"
+                                                                                                        value="Come Back"
+                                                                                                        class="buttonLog"
+                                                                                                        @click="join(game)"> </span>
+                </span></span>
+                    <span v-else> <span> GamePlayers: </span>{{game.gamePlayers[0].players.playerEmail}}<span> vs </span> {{game.gamePlayers[1].players.playerEmail}} <span
+                            v-if="userNameLogin!= null"> <span
+                            v-if="userNameLogin.playerId == game.gamePlayers[0].players.playerId || userNameLogin.playerId == game.gamePlayers[1].players.playerId"> <input
+                            type="button" value="Come Back" class="buttonLog"
+                            @click="join(game)"> </span></span></span>
+                    </span></li>
+            </ul>
+        </div>
 
-    <div  class="listGames">
-
-        <ul v-for="game in gamesJsn.games">
-            <li>
-                <span> Game </span>{{game.gameId}} <span>Date Created: </span>{{game.gameCreated}}<span v-if="game.gamePlayers.length ==1"> <span> GamePlayers: </span>{{game.gamePlayers[0].players.playerEmail}}</span>
-                <span v-else> <span> GamePlayers: </span>{{game.gamePlayers[0].players.playerEmail}}<span> vs </span> {{game.gamePlayers[1].players.playerEmail}}</span></li>
-        </ul>
-    </div>
-
-    <div class="tableScore">
-        <table class="table table-bordered">
-            <thead>
+        <div class="tableScore">
+            <table class="table table-bordered">
+                <thead>
                 <tr class="cellPosition">
-                    <td> Player </td>
+                    <td> Player</td>
                     <td> Total Points</td>
                     <td> Total Wins</td>
                     <td> Total Ties</td>
                     <td> Total Lost</td>
                 </tr>
-            </thead>
-            <tbody>
-                <tr v-for =" player in rankedPlayersJsn">
+                </thead>
+                <tbody>
+                <tr v-for=" player in rankedPlayersJsn">
                     <td> {{player.playerEmail}}</td>
                     <td class="cellPosition"> {{player.totalPoints}}</td>
                     <td class="cellPosition"> {{player.totalWins}}</td>
                     <td class="cellPosition"> {{player.totalTies}}</td>
                     <td class="cellPosition"> {{player.totalLosers }}</td>
                 </tr>
-            </tbody>
+                </tbody>
 
 
-        </table>
+            </table>
+        </div>
     </div>
-</div>
 </div>
 
 <script src="scritps/games.js"></script>

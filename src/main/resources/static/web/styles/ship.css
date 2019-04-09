@@ -6,7 +6,7 @@
 .structureGame{
     display:grid;
     grid-template-columns: 10% 40% 40% 10%;
-    grid-template-rows: 20% 20% 60%;
+    grid-template-rows: 5% 30% 60%;
     height: 100vh;
 }
 
@@ -65,20 +65,34 @@
 }
 
 .listGames{
+    display: flex;
     grid-column: 2/4;
-    grid-row: 2;
-    margin-top: 1.5em;
+    grid-row: 2/4;
+    margin-top: 2em;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    text-align: center;
 }
 
-.formLogin{
-    flex-wrap: nowrap;
+.listGames li{
+    width:135px
+}
+
+.heather{
+    /*flex-wrap: nowrap;*/
+    display:flex;
     grid-column: 2/4;
     grid-row: 1;
     padding:1em;
+    justify-content:space-around;
+
 }
 
 .login{
     display:flex;
+    grid-column:2/3;
+    grid-row:1;
+
     /*flex-direction: space;*/
 }
 
@@ -86,7 +100,26 @@
     background: brown;
     color:white;
     height: 2.5em;
-    width: 5em;
+    width: 7em;
+    padding: 0.5em;
+
+}
+
+.moreInfo{
+    grid-column:3/4;
+    grid-row:1;
+}
+
+.createdGame{
+
+    background: limegreen;
+    color:white;
+    height: 2.5em;
+    width: 7em;
+    padding: 0.5em;
+    grid-column: 3/4;
+    grid-row: 1;
+
 }
 
 .login p{
@@ -94,6 +127,7 @@
 }
 
 .tableScore{
+    margin-top: 1.5em;
     grid-column:2/4;
     grid-row: 4;
 }
@@ -101,3 +135,21 @@
 .cellPosition{
     text-align: center;
 }
+
+/* width */
+::-webkit-scrollbar {
+    height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: brown;
+    border-radius: 10px;
+}
+

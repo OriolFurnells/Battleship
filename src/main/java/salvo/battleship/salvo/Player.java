@@ -16,17 +16,13 @@ public class Player {
     private String userName;
     private String password;
 
-
     @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
     Set <GamePlayer> gamePlayers = new HashSet<>();
-
 
     @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
     private Set<Score> scores= new HashSet<>();
 
-
     public Player() {
-
     }
 
     public Player(String username, String password) {
@@ -83,7 +79,6 @@ public class Player {
         score.setPlayer(this);
         scores.add(score);
     }
-
 
     public Score getScore (Game game){
             //cogemos los scores y los transformamos en --

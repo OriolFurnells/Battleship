@@ -47,12 +47,17 @@ public class    SalvoController {
 
         return gamesDto;
     }
+    @RequestMapping(path = "/games", method = RequestMethod.POST)
+    public ResponseEntity<Object> creatGame() {
+        System.out.println("Creando juego...");
+        gameRepo.save(new Game());
 
+        //CREAR GAMEPLAYER Y GUARDAR LAS 2 COSAS
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
     @RequestMapping("/game_view/{gamePlayerId}")
     public Map<String, Object> getGameView(@PathVariable Long gamePlayerId) {
-
         GamePlayer gamePlayer = gamePlayerRepo.getOne(gamePlayerId);
-
         return makeGameCompleteDTO(gamePlayer);
     }
 
@@ -77,9 +82,9 @@ public class    SalvoController {
         }
         playerRepo.save(new Player(username, password));
         return new ResponseEntity<>(HttpStatus.CREATED);
-
-
     }
+
+
 
     private LinkedHashMap<String, Object> makeGamePlayerDTO(GamePlayer gamePlayer) {
         LinkedHashMap<String, Object> MapaDto = new LinkedHashMap<String, Object>();

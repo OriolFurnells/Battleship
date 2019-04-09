@@ -332,7 +332,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/players"
 
                 ).permitAll()
-                .anyRequest().hasAnyAuthority("USER");
+                .anyRequest().hasAnyAuthority("ROLE_USER");
 
         http.formLogin()
                 .passwordParameter("password")
